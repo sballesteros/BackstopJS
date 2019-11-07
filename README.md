@@ -1,10 +1,12 @@
 [![Build Status](https://travis-ci.org/garris/BackstopJS.svg?branch=master)](https://travis-ci.org/garris/BackstopJS)
 
-
 # BackstopJS
 ![I'm in your webapps -- checkin your screens](http://garris.github.io/BackstopJS/assets/memes/im-in-ur-webapps-checking-ur-screens.jpg)
 
-BackstopJS automates visual regression testing of your responsive web UI by comparing DOM screenshots over time.
+**BackstopJS automates visual regression testing of your responsive web UI by comparing DOM screenshots over time.**
+
+## Breaking News
+**EmberJS users** -- check out our ember-backstop test helper! https://github.com/garris/ember-backstop
 
 ## Backstop Features
 
@@ -67,8 +69,6 @@ $ npm install -g backstopjs
 ## Getting started
 ### Installation
 
-_[Chrome latest is recommended](https://www.google.com/chrome/browser)_
-
 #### Global installation (recommended)
 ```sh
 $ npm install -g backstopjs
@@ -111,7 +111,6 @@ As a new user setting up tests for your project, you will be primarily concerned
 
 - **`scenarios[n].label`** – Required. Also used for screenshot naming.
 - **`scenarios[n].url`** – Required. Tells BackstopJS what endpoint/document you want to test.  This can be an absolute URL or local to your current working directory.
-- **`scenarios[n].viewports`** – An array of screen size objects your DOM will be tested against. This configuration will override the ones provided by default configuration.
 
 _TIP: no other SCENARIO properties are required. Other properties can just be added as necessary_
 
@@ -177,6 +176,7 @@ selectors                // Array of selectors to capture. Defaults to document 
 selectorExpansion        // See Targeting elements in the next section for more info...
 misMatchThreshold        // Percentage of different pixels allowed to pass test
 requireSameDimensions    // If set to true -- any change in selector size will trigger a test failure.
+viewports                // An array of screen size objects your DOM will be tested against. This configuration will override the viewports property assigned at the config root.
 ```
 
 
@@ -231,7 +231,7 @@ Pro tip:  If your app uses a lot of cookies then do yourself a favor and downloa
 
 ### Targeting elements
 
-BackstopJS makes it super easy to capture screenshots of your entire layout or just parts of your layout.  This is defined in the your scenario.selectors array. Elements are defined with standard CSS notation. By default BackstopJS takes a screenshot of the first occurrence of any selector found in your DOM.  e.g. If you have three `li` tags in your layout only the first will used.
+BackstopJS makes it super easy to capture screenshots of your entire layout or just parts of your layout. This is defined in your scenario.selectors array. Elements are defined with standard CSS notation. By default BackstopJS takes a screenshot of the first occurrence of any selector found in your DOM. e.g. If you have three `li` tags in your layout only the first will used.
 
 #### selectorExpansion
 If you want BackstopJS to find and take screenshots of _all_ matching selector instances then there is a handy switch for that. Set `selectorExpansion` to `true` like so...
@@ -480,7 +480,7 @@ By default the base path is a folder called `engine_scripts` inside your Backsto
 onBefore(engine, scenario, viewport, isReference, Engine, config)
 
 ```
-engine:      chromy or puppetter engine instance
+engine:      chromy or puppeteer engine instance
 scenario:    currently running scenario config
 viewport:    viewport info
 isReference: whether scenario contains reference URL propery
@@ -494,13 +494,13 @@ One testing approach to consider is incorporating BackstopJS into your build pro
 
 It's natural for your layout to break while you're in feature development -- in that case you might just run a `backstop test` when you feel things should be shaping up.
 
-Using the `report` property in your config to enable or disable browser including/excluding the respective properties. E.G. The following settings will open a browser and write a junit report.
+Use the `report` property in your config to enable or disable the respective properties. E.g. The following settings will open a browser and write a junit report.
 
 ```json
 "report": ["browser", "CI"]
 ```
 
-You can also specify a json report by specifying:
+You can also specify a json report:
 ```json
 "report": ["json"]
 ```
@@ -605,9 +605,9 @@ An example config below...
 
 ```js
 "engineOptions": {
-  waitTimeout: 120000,
-  chromePath: /path/to/chrome,
-  chromeFlags: ['--disable-gpu', '--force-device-scale-factor=1']
+  "waitTimeout": 120000,
+  "chromePath": "/path/to/chrome",
+  "chromeFlags": ["--disable-gpu", "--force-device-scale-factor=1"]
 }
 ```
 
@@ -902,9 +902,9 @@ Here's some suggestions if you want to work on the HTML report locally...
 	# From test/configs/ directory
 	# ---------------
 	# simple test
-		../../cli/index.js test --config=backstop
+		../../cli/index.js test --config=backstop --docker
 	# longer test covering many features
-		../../cli/index.js test --config=backstop_features
+		../../cli/index.js test --config=backstop_features --docker
 	```
 
 ## Troubleshooting

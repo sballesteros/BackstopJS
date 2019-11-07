@@ -1,6 +1,6 @@
 {
   "name": "backstopjs",
-  "version": "4.0.5",
+  "version": "4.3.2",
   "description": "BackstopJS: Catch CSS curveballs.",
   "bin": {
     "backstop": "./cli/index.js"
@@ -12,7 +12,9 @@
     "init": "node ./cli/index.js init",
     "reference": "node ./cli/index.js reference",
     "test": "node ./cli/index.js test",
+    "approve": "node ./cli/index.js approve",
     "openReport": "node ./cli/index.js openReport",
+    "report": "node ./cli/index.js openReport",
     "echo": "node ./cli/index.js echo",
     "unit-test": "mocha --reporter spec --recursive 'test/**/*_spec.js'",
     "precommit": "lint-staged",
@@ -23,7 +25,9 @@
     "sanity-test": "cd test/configs/ && node ../../cli/index.js test",
     "kill-zombies": "pkill -f \"(chrome)?(--headless)\"",
     "copy-report-bundle": "mkdir -p test/configs/backstop_data/html_report && cp compare/output/index_bundle.js test/configs/backstop_data/html_report/",
-    "build-and-copy-report-bundle": "npm run build-compare && npm run copy-report-bundle"
+    "build-and-copy-report-bundle": "npm run build-compare && npm run copy-report-bundle",
+    "remote": "node ./cli/index.js remote",
+    "stop": "curl http://localhost:3000/stop"
   },
   "lint-staged": {
     "compare/src/**/*.js": [
@@ -92,7 +96,8 @@
     "path": "^0.12.7",
     "portfinder": "^1.0.17",
     "puppeteer": "^1.15.0",
-    "super-simple-web-server": "^1.1.1",
+    "resolve": "^1.11.1",
+    "super-simple-web-server": "^1.1.2",
     "temp": "^0.8.3"
   }
 }
